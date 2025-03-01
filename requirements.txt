@@ -1,0 +1,8 @@
+tensorflow
+numpy
+pillow
+pymongo
+gridfs
+requests
+python-dotenv
+smtplib
