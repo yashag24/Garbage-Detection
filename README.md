@@ -24,6 +24,3 @@ FROM_EMAIL=your-email@gmail.com
 EMAIL_PASSWORD=your-email-password  
 TO_EMAIL=receiver-email@gmail.com  
 ```
-```
-
-Copy and paste it into your terminal or text editor. 🚀
