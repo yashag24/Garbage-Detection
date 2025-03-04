@@ -118,7 +118,7 @@ def upload_image():
                 f"Confidence: {confidence:.2%}\n"
                 f"Coordinates: {lat:.6f}, {lon:.6f}\n"
                 f"Address: {location_name or 'Unknown location'}\n"
-                f"Street: {STREET_NAME}"
+               
             )
             send_email("Garbage Detection Alert", email_body)
 

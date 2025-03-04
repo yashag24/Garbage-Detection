@@ -1,17 +1,18 @@
-import {} from "./context/AppContext";
-import Header from "./components/userDashboard/Header";
-import MainCard from "./components/userDashboard/MainCard";
-import Footer from "./components/userDashboard/Footer";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import UserDashboard from "./pages/UserDashboard";
+import NagarpalikaDashboard from "./pages/NagarPalikaDashboard";
 
 function App() {
   return (
-    <>
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-emerald-50 via-blue-50 to-indigo-50 p-6">
-        <Header />
-        <MainCard />
-        <Footer />
-      </div>
-    </>
+    <Router>
+      <Routes>
+        {/* Route for User Dashboard */}
+        <Route path="/" element={<UserDashboard />} />
+
+        {/* Route for Nagarpalika Dashboard */}
+        <Route path="/nagarpalika" element={<NagarpalikaDashboard />} />
+      </Routes>
+    </Router>
   );
 }
 
