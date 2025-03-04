@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nagarpalika Waste Management Dashboard</title>
+    <style>
+        :root {
+            --primary: #1e40af;
+            --secondary: #3b82f6;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --light: #f3f4f6;
+            --dark: #1f2937;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9fafb;
+            color: #111827;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+        
+        nav {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: bold;
+            font-size: 1.25rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .sidebar {
+            background-color: white;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .card-title {
+            font-weight: bold;
+            font-size: 1.25rem;
+            color: var(--dark);
+        }
+        
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            grid-column: span 2;
+        }
+        
+        .stat-card {
+            background-color: white;
+            border-radius: 0.5rem;
+            padding: 1.25rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin: 0.5rem 0;
+        }
+        
+        .stat-label {
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+        
+        .notification {
+            display: flex;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            background-color: #fff;
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .notification.high {
+            border-left-color: var(--danger);
+        }
+        
+        .notification.medium {
+            border-left-color: var(--warning);
+        }
+        
+        .notification.low {
+            border-left-color: var(--success);
+        }
+        
+        .notification-content {
+            flex: 1;
+        }
+        
+        .notification-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 0.25rem;
+            margin-right: 1rem;
+        }
+        
+        .notification-title {
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+        }
+        
+        .notification-meta {
+            display: flex;
+            font-size: 0.75rem;
+            color: #6b7280;
+            margin-bottom: 0.5rem;
+        }
+        
+        .notification-time {
+            margin-right: 1rem;
+        }
+        
+        .notification-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .btn {
+            padding: 0.375rem 0.75rem;
+            border-radius: 0.25rem;
+            font-size: 0.875rem;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid #d1d5db;
+        }
+        
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            margin-bottom: 0.5rem;
+        }
+        
+        .menu-item:hover {
+            background-color: #f3f4f6;
+        }
+        
+        .menu-item.active {
+            background-color: #e5edff;
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
+        .badge {
+            background-color: #fee2e2;
+            color: #ef4444;
+            padding: 0.125rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .filter-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background-color: white;
+            border-radius: 0.5rem;
+            align-items: center;
+        }
+        
+        .filter-label {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+        
+        select, input {
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            border: 1px solid #d1d5db;
+            font-size: 0.875rem;
+        }
+        
+        .map-container {
+            height: 300px;
+            background-color: #f3f4f6;
+            border-radius: 0.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            grid-column: span 2;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 9999px;
+            background-color: #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            <span>Nagarpalika Clean City Initiative</span>
+        </div>
+        <div class="nav-links">
+            <span>Dashboard</span>
+            <span>Reports</span>
+            <span>Teams</span>
+            <span>Analytics</span>
+        </div>
+        <div class="user-info">
+            <div class="avatar">AM</div>
+            <span>Admin</span>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="main-content">
+            <div class="sidebar">
+                <div class="menu-item active">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="3" y1="9" x2="21" y2="9"></line>
+                        <line x1="9" y1="21" x2="9" y2="9"></line>
+                    </svg>
+                    <span>Dashboard</span>
+                </div>
+                <div class="menu-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                    <span>Notifications</span>
+                    <span class="badge">28</span>
+                </div>
+                <div class="menu-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                    <span>Cleaning Teams</span>
+                </div>
+                <div class="menu-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 20h9"></path>
+                        <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                    </svg>
+                    <span>Reports</span>
+                </div>
+                <div class="menu-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                        <line x1="8" y1="21" x2="16" y2="21"></line>
+                        <line x1="12" y1="17" x2="12" y2="21"></line>
+                    </svg>
+                    <span>Analytics</span>
+                </div>
+                <div class="menu-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                    </svg>
+                    <span>Settings</span>
+                </div>
+            </div>
+            
+            <div class="dashboard">
+                <div class="filter-bar" style="grid-column: span 2;">
+                    <div>
+                        <div class="filter-label">Zone</div>
+                        <select>
+                            <option>All Zones</option>
+                            <option>North Zone</option>
+                            <option>South Zone</option>
+                            <option>East Zone</option>
+                            <option>West Zone</option>
+                        </select>
+                    </div>
+                    <div>
+                        <div class="filter-label">Date Range</div>
+                        <select>
+                            <option>Today</option>
+                            <option>Last 7 Days</option>
+                            <option>Last 30 Days</option>
+                            <option>Custom Range</option>
+                        </select>
+                    </div>
+                    <div>
+                        <div class="filter-label">Priority</div>
+                        <select>
+                            <option>All Priorities</option>
+                            <option>High</option>
+                            <option>Medium</option>
+                            <option>Low</option>
+                        </select>
+                    </div>
+                    <div>
+                        <div class="filter-label">Status</div>
+                        <select>
+                            <option>All</option>
+                            <option>Pending</option>
+                            <option>In Progress</option>
+                            <option>Resolved</option>
+                        </select>
+                    </div>
+                    <div>
+                        <div class="filter-label">Search</div>
+                        <input type="text" placeholder="Search...">
+                    </div>
+                </div>
+                
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-label">New Reports Today</div>
+                        <div class="stat-value">28</div>
+                        <div class="stat-label">↑ 12% from yesterday</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Pending Cleanup</div>
+                        <div class="stat-value">54</div>
+                        <div class="stat-label">↓ 5% from yesterday</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Resolved This Week</div>
+                        <div class="stat-value">136</div>
+                        <div class="stat-label">↑ 23% from last week</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Average Response Time</div>
+                        <div class="stat-value">4.2h</div>
+                        <div class="stat-label">↓ 0.8h improvement</div>
+                    </div>
+                </div>
+                
+                <div class="map-container" id="map">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
+                        <line x1="8" y1="2" x2="8" y2="18"></line>
+                        <line x1="16" y1="6" x2="16" y2="22"></line>
+                    </svg>
+                    <div style="margin-left: 1rem;">City Waste Heatmap</div>
+                </div>
+                
+                <div class="card" style="grid-column: span 2;">
+                    <div class="card-header">
+                        <div class="card-title">Recent Garbage Reports</div>
+                        <button class="btn btn-primary">Assign Team</button>
+                    </div>
+                    
+                    <div class="notification high">
+                        <img src="/api/placeholder/80/80" alt="Garbage" class="notification-image">
+                        <div class="notification-content">
+                            <div class="notification-title">Illegal Dumping at Ganesh Nagar</div>
+                            <div class="notification-meta">
+                                <span class="notification-time">Today, 10:23 AM</span>
+                                <span class="notification-priority">High Priority</span>
+                            </div>
+                            <div class="notification-description">
+                                Large pile of construction waste dumped near the Ganesh Nagar playground. Needs immediate action.
+                            </div>
+                            <div class="notification-actions">
+                                <button class="btn btn-primary">Assign</button>
+                                <button class="btn btn-outline">Details</button>
+                                <button class="btn btn-outline">Mark as Resolved</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="notification medium">
+                        <img src="/api/placeholder/80/80" alt="Garbage" class="notification-image">
+                        <div class="notification-content">
+                            <div class="notification-title">Overflowing Bin at Market Road</div>
+                            <div class="notification-meta">
+                                <span class="notification-time">Today, 09:15 AM</span>
+                                <span class="notification-priority">Medium Priority</span>
+                            </div>
+                            <div class="notification-description">
+                                Community bin at Market Road junction is overflowing. Area has high foot traffic.
+                            </div>
+                            <div class="notification-actions">
+                                <button class="btn btn-primary">Assign</button>
+                                <button class="btn btn-outline">Details</button>
+                                <button class="btn btn-outline">Mark as Resolved</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="notification low">
+                        <img src="/api/placeholder/80/80" alt="Garbage" class="notification-image">
+                        <div class="notification-content">
+                            <div class="notification-title">Roadside Litter near Shanti Park</div>
+                            <div class="notification-meta">
+                                <span class="notification-time">Yesterday, 16:40 PM</span>
+                                <span class="notification-priority">Low Priority</span>
+                            </div>
+                            <div class="notification-description">
+                                Small amount of scattered litter along the walking path near Shanti Park entrance.
+                            </div>
+                            <div class="notification-actions">
+                                <button class="btn btn-primary">Assign</button>
+                                <button class="btn btn-outline">Details</button>
+                                <button class="btn btn-outline">Mark as Resolved</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Team Availability</div>
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <div style="display: flex; justify-content: space-between; padding: 0.5rem; border-bottom: 1px solid #e5e7eb;">
+                            <span>Team Alpha</span>
+                            <span style="color: var(--success);">Available</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 0.5rem; border-bottom: 1px solid #e5e7eb;">
+                            <span>Team Bravo</span>
+                            <span style="color: var(--danger);">On Task</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 0.5rem; border-bottom: 1px solid #e5e7eb;">
+                            <span>Team Charlie</span>
+                            <span style="color: var(--success);">Available</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 0.5rem; border-bottom: 1px solid #e5e7eb;">
+                            <span>Team Delta</span>
+                            <span style="color: var(--danger);">On Task</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 0.5rem;">
+                            <span>Team Echo</span>
+                            <span style="color: var(--warning);">On Break</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Zone Statistics</div>
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <div style="margin-bottom: 1rem;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
+                                <span>North Zone</span>
+                                <span>24%</span>
+                            </div>
+                            <div style="height: 0.5rem; background-color: #e5e7eb; border-radius: 9999px; overflow: hidden;">
+                                <div style="height: 100%; width: 24%; background-color: var(--danger); border-radius: 9999px;"></div>
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 1rem;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
+                                <span>South Zone</span>
+                                <span>18%</span>
+                            </div>
+                            <div style="height: 0.5rem; background-color: #e5e7eb; border-radius: 9999px; overflow: hidden;">
+                                <div style="height: 100%; width: 18%; background-color: var(--warning); border-radius: 9999px;"></div>
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 1rem;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
+                                <span>East Zone</span>
+                                <span>32%</span>
+                            </div>
+                            <div style="height: 0.5rem; background-color: #e5e7eb; border-radius: 9999px; overflow: hidden;">
+                                <div style="height: 100%; width: 32%; background-color: var(--danger); border-radius: 9999px;"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
+                                <span>West Zone</span>
+                                <span>26%</span>
+                            </div>
+                            <div style="height: 0.5rem; background-color: #e5e7eb; border-radius: 9999px; overflow: hidden;">
+                                <div style="height: 100%; width: 26%; background-color: var(--warning); border-radius: 9999px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

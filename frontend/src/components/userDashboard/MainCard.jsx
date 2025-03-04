@@ -1,7 +1,7 @@
-import UploadArea from "../UploadArea/UploadArea";
-import UploadButton from "../UploadButton/UploadButton";
-import ErrorMessage from "../ErrorMessage/ErrorMessage";
-import AnalysisResults from "../AnalysisResults/AnalysisResults";
+import UploadArea from "./UploadArea";
+import UploadButton from "./UploadButton";
+import ErrorMessage from "./ErrorMessage";
+import AnalysisResults from "./AnalysisResults";
 
 import { useAppContext } from "../../context/AppContext";
 const MainCard = () => {

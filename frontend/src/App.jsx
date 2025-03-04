@@ -1,7 +1,7 @@
 import {} from "./context/AppContext";
-import Header from "./components/Header/Header";
-import MainCard from "./components/MainCard/MainCard";
-import Footer from "./components/Footer/Footer";
+import Header from "./components/userDashboard/Header";
+import MainCard from "./components/userDashboard/MainCard";
+import Footer from "./components/userDashboard/Footer";
 
 function App() {
   return (

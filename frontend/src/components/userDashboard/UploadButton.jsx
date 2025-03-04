@@ -1,5 +1,5 @@
 import { useAppContext } from "../../context/AppContext";
-import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import LoadingSpinner from "./LoadingSpinner";
 
 const UploadButton = () => {
     const { loading, handleUpload, file } = useAppContext();
